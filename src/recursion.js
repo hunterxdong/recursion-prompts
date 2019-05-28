@@ -141,7 +141,15 @@ have to go backwards
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
-
+	if (string.length === 0) {
+		return '';
+	}
+	if (string.length > 0) {
+		return (
+			string[string.length - 1] +
+			reverse(string.substring(0, string.length - 1))
+		);
+	}
 };
 
 /*
@@ -150,14 +158,48 @@ i : string but going fowards
 c : linear else constant plz. need to use recusion
 e : not sure
 
-use array
-concat the array
+"string" => "gnirts"
+
+"strin" => "g"
+string.substring(0, string.length - 1))+string.substring(0, string.length - 1))+string.substring(0, string.length - 1))+string.substring(0, string.length - 1))+string.substring(0, string.length - 1))+string.substring(0, string.length - 1))
+
+"stri" => "gn"
+"str" => "gni"
+"st" => "gnir"
+"s" => gnirt
+"" => "gnirts"
+return
 */
 
-
-
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {};
+var palindrome = function(string) {
+  string = string.split(' ').join('').toLowerCase();
+	if (string.length === 0) {
+		return true;
+	}
+	if (string.length === 1) {
+		return true;
+	} else {
+		if (string[0] === string[string.length - 1]) {
+			return palindrome(string.substring(1, string.length - 1));
+		} else {
+			return false;
+		}
+	}
+};
+
+/*
+o : boolean if the string is a palindrome
+i : string that will either be a palindrome or not a palindrome
+c : linear time complexity need to use the most og recursion possible
+e : can handle odd and even length strings
+
+var string = 'helleh'
+[0,1,2,3,4,5]
+string[0] = string[string.length -1]
+string.substring(1, string.length - 1)
+end case would be when string = 0, 1
+*/
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
