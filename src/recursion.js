@@ -173,7 +173,10 @@ return
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-  string = string.split(' ').join('').toLowerCase();
+	string = string
+		.split(' ')
+		.join('')
+		.toLowerCase();
 	if (string.length === 0) {
 		return true;
 	}
@@ -206,15 +209,91 @@ end case would be when string = 0, 1
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
-var modulo = function(x, y) {};
+var modulo = function(x, y) {
+	if (y === 0) {
+		return NaN;
+	}
+	if (x === 0) {
+		return x;
+	}
+	if ((x > 0 && y > 0) || (x < 0 && y < 0)) {
+		if (x < y) {
+			return x;
+		} else {
+			return modulo(x - y, y);
+		}
+	}
+	if (x < 0 && y > 0) {
+		if (y < x) {
+			return x;
+		} else {
+			return modulo(x + y, y);
+		}
+	}
+	if (x > 0 && y < 0) {
+		if (x < y) {
+			return x;
+		} else {
+			return modulo(x + y, y);
+		}
+	}
+};
+
+/*
+o : number which is the remainder
+i : two integers(maybe just numbers)
+c : linear do it with recursion 
+e : negatives and maybe decimal kinds of numbers
+
+subtract x - y untill x < y
+return x if thats the case 
+do recusivly
+*/
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
-var multiply = function(x, y) {};
+var multiply = function(x, y) {
+	if (y === 0) {
+		return 0;
+	} else {
+		return x + multiply(x, y - 1);
+	}
+};
+
+//handle negative numbers
+
+/*
+o : number
+i : two numbers
+c : use recursion/ use addition
+e : negatives will mess you up
+
+multiply(2,5)
+2+2+2+2+2
+or 
+5+5
+*/
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {};
+
+//need an accumulator without using side effects
+
+/*
+o : number/ doesnt have to be integer
+i : two numbers
+c : need to do it with recursion
+e : negatives will mess with you
+
+assume x is number being divided
+assume y is the number doing the dividing
+divide(15, 5)
+divide(x-y, y)
+divide(10-5)
+divide(5-5)
+
+*/
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
@@ -222,31 +301,151 @@ var divide = function(x, y) {};
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {};
+/*
+o : number
+i : 2 numbers hopefully with a common denominator
+c : do it with recursion/ linear
+e : can use modulo
+
+
+*/
 
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
-var compareStr = function(str1, str2) {};
+var compareStr = function(str1, str2) {
+	if (str1.length === 0 && str2.length === 0) {
+		return true;
+	} else {
+		if (str1[0] === str2[0]) {
+			return compareStr(str1.substring(1), str2.substring(1));
+		} else {
+			return false;
+		}
+	}
+};
+
+/*
+o : boolean either true or false
+i : two strings either same or not
+c : use recursion
+e : none that I see
+
+compare 
+if (str1.length === 0 && str2.length === 0){
+  return true
+}
+str1[0] === str2[0]
+compareStr(str1.substr(1), str2.substr(1))
+*/
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
-var createArray = function(str) {};
+var createArray = function(str) {
+	var newArr = [];
+	if (str.length === 0) {
+		return [];
+	} else {
+		newArr.push(str[0]);
+		return newArr.concat(createArray(str.substring(1)));
+	}
+};
 
 // 17. Reverse the order of an array
-var reverseArr = function(array) {};
+var reverseArr = function(array) {
+	var newArr = [];
+	if (array.length === 0) {
+		return [];
+	} else {
+		newArr.push(array[array.length - 1]);
+		return newArr.concat(reverseArr(array.slice(0, array.length - 1)));
+	}
+};
+/*
+o : array but reversed
+i : array but forward
+c : use pure recursion
+e : array of length 0?
+
+if (array.length === 0){
+  return [];
+}
+newArr.push(array[array.length - 1])
+reverseArr(array.slice(0, array.length - 1))
+*/
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
-var buildList = function(value, length) {};
+var buildList = function(value, length) {
+	var newArr = [];
+	if (length === 0) {
+		return [];
+	} else {
+		newArr.push(value);
+		return newArr.concat(buildList(value, length - 1));
+	}
+};
+/*
+o : array
+i : value can be anything really, length is always integer
+c : use pure recursion
+e : not any that I can see
+
+buildList(1,5) 
+buildlist(1,5-1)
+buildlist(1,4-1)
+
+array to hold
+if length ==== 0
+  return [];
+concact (buildList(value, length - 1))
+*/
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
 // For multiples of three, output 'Fizz' instead of the number.
 // For multiples of five, output 'Buzz' instead of the number.
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
-var fizzBuzz = function(n) {};
+var fizzBuzz = function(n) {
+	var newArr = [];
+	if (n === 0) {
+		return [];
+	} else {
+		if (n % 3 === 0 && n % 5 === 0) {
+			newArr.unshift('FizzBuzz');
+			return fizzBuzz(n - 1).concat(newArr);
+		}
+		if (n % 3 === 0) {
+			newArr.unshift('Fizz');
+			return fizzBuzz(n - 1).concat(newArr);
+		}
+		if (n % 5 === 0) {
+			newArr.unshift('Buzz');
+			return fizzBuzz(n - 1).concat(newArr);
+		} else {
+			newArr.unshift(n.toString());
+			return fizzBuzz(n - 1).concat(newArr);
+		}
+	}
+};
+
+/*
+o : an array of strings
+i : a positive integer
+c : have to do it with pure recursion
+e : none that I know of. Maybe have it work for negative numbers. I'm just going to have it work for non negative number
+
+new array
+if (n === 0){
+  return [];
+} else {
+  newarra
+}
+fizzbuzz(n - 1)
+
+ */
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
